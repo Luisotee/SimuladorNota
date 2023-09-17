@@ -7,8 +7,6 @@ import { SubjectCard } from "../components/subject-card";
 export function Home() {
   const [subjectObjs, setSubjectObjs] = useState<SubjectObjI[]>([]);
 
-  console.log("subjectObjs:", subjectObjs);
-
   return (
     <View style={{ marginTop: 20, marginHorizontal: 20 }}>
       <AddSubjectButton

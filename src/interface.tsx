@@ -12,3 +12,7 @@ export interface SubjectObjI {
     setValue: React.Dispatch<React.SetStateAction<string>>;
   };
 }
+export interface SquareInputProps {
+  value: string;
+  onChange?: (value: string) => void;
+}

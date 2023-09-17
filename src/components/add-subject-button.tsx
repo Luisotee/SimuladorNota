@@ -78,27 +78,39 @@ function FormAddSubject({
   }
 
   function handleSubjectCreation(): void {
-    const newSubjectObj: SubjectObjI = {
-      moduleQuantity: {
-        value: moduleQuantity,
-        setValue: setModuleQuantity,
-      },
-      moduleWeight: {
-        value: moduleWeight,
-        setValue: setModuleWeight,
-      },
-      subjectName: {
-        value: subjectName,
-        setValue: setSubjectName,
-      },
-    };
+    // Calculate the sum of module weights
+    const sumOfWeights = moduleWeight.reduce(
+      (acc, weight) => acc + parseFloat(weight),
+      0
+    );
 
-    setSubjectObjs((prevSubjectObjs) => [...prevSubjectObjs, newSubjectObj]);
-    toggleOverlay();
+    // Check if the sum of weights is equal to 100
+    if (sumOfWeights === 100) {
+      const newSubjectObj: SubjectObjI = {
+        moduleQuantity: {
+          value: moduleQuantity,
+          setValue: setModuleQuantity,
+        },
+        moduleWeight: {
+          value: moduleWeight,
+          setValue: setModuleWeight,
+        },
+        subjectName: {
+          value: subjectName,
+          setValue: setSubjectName,
+        },
+      };
+
+      setSubjectObjs((prevSubjectObjs) => [...prevSubjectObjs, newSubjectObj]);
+      toggleOverlay();
+    } else {
+      // Display an error message
+      alert("A soma dos modulos tem que ser igual a 100");
+    }
   }
 
   return (
-    <Overlay isVisible={visible} onBackdropPress={toggleOverlay} fullScreen>
+    <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
       <View style={{ padding: 20 }}>
         <Input
           placeholder="Nome da Matéria"
