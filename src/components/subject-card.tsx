@@ -23,10 +23,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export function SubjectCard({ subjectObj }: { subjectObj: SubjectObjI }) {
+export function SubjectCard({
+  subjectObj,
+  onDelete, // Add onDelete prop
+}: {
+  subjectObj: SubjectObjI;
+  onDelete: () => void;
+}) {
   const [grades, setGrades] = useState<string[]>([]);
   const [finalGrade, setFinalGrade] = useState("0.00");
-  const [isCardVisible, setIsCardVisible] = useState(true);
 
   useEffect(() => {
     console.log("subjectObj:", subjectObj);
@@ -66,25 +71,19 @@ export function SubjectCard({ subjectObj }: { subjectObj: SubjectObjI }) {
     return inputs;
   }
 
-  function handleDelete() {
-    setIsCardVisible(false);
-  }
-
   return (
-    isCardVisible && (
-      <View style={{ width: "100%" }}>
-        <Card>
-          <View style={styles.titleContainer}>
-            <Card.Title>{subjectObj.subjectName.value}</Card.Title>
-            <Icon name="delete" size={24} onPress={handleDelete} />
-          </View>
-          <View style={styles.container}>
-            {renderSquareInputs()}
-            <Text style={styles.equalSign}> = </Text>
-            <SquareInput value={finalGrade} />
-          </View>
-        </Card>
-      </View>
-    )
+    <View style={{ width: "100%" }}>
+      <Card>
+        <View style={styles.titleContainer}>
+          <Card.Title>{subjectObj.subjectName.value}</Card.Title>
+          <Icon name="delete" size={24} onPress={onDelete} />
+        </View>
+        <View style={styles.container}>
+          {renderSquareInputs()}
+          <Text style={styles.equalSign}> = </Text>
+          <SquareInput value={finalGrade} />
+        </View>
+      </Card>
+    </View>
   );
 }
