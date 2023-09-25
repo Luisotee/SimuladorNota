@@ -11,6 +11,10 @@ export interface SubjectObjI {
     value: string;
     setValue: React.Dispatch<React.SetStateAction<string>>;
   };
+  subjectPassingGrade: {
+    value: string;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
+  };
 }
 export interface SquareInputProps {
   value: string;

@@ -37,7 +37,33 @@ export function SubjectCard({
   const [grades, setGrades] = useState<string[]>([]);
   const [finalGrade, setFinalGrade] = useState("0.00");
 
-  const neededGrades = 0;
+  let remainingWeight = 0;
+
+  function calculateNeededGrades() {
+    let usedWeight = 0;
+    let emptyGradesCount = 0; // Initialize a counter for empty grades
+
+    for (let i = 0; i < grades.length; i++) {
+      const grade = grades[i];
+      const weight = parseFloat(subjectObj.moduleWeight.value[i]);
+
+      if (grade !== "") {
+        usedWeight += weight;
+      } else {
+        emptyGradesCount++; // Increment the counter for empty grades
+      }
+    }
+
+    const remainingWeight = 100 - usedWeight;
+    const remainingGrade =
+      parseFloat(subjectObj.subjectPassingGrade.value) - parseFloat(finalGrade);
+
+    let neededGrades = remainingGrade / (remainingWeight / 100);
+
+    return neededGrades;
+  }
+
+  const neededGrades = calculateNeededGrades();
 
   function handleGradeChange(index: number, value: string) {
     // Allow valid decimal numbers or empty string, default to "0.00"

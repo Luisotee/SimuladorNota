@@ -46,6 +46,7 @@ function FormAddSubject({
   const [moduleQuantity, setModuleQuantity] = useState<number>(0);
   const [moduleWeight, setModuleWeight] = useState<string[]>([]);
   const [subjectName, setSubjectName] = useState<string>("");
+  const [subjectPassingGrade, setSubjectPassingGrade] = useState<string>("");
 
   function handleModuleQuantity(val: number): void {
     setModuleQuantity(val);
@@ -99,6 +100,10 @@ function FormAddSubject({
           value: subjectName,
           setValue: setSubjectName,
         },
+        subjectPassingGrade: {
+          value: subjectPassingGrade,
+          setValue: setSubjectPassingGrade,
+        },
       };
 
       setSubjectObjs((prevSubjectObjs) => [...prevSubjectObjs, newSubjectObj]);
@@ -116,6 +121,11 @@ function FormAddSubject({
           placeholder="Nome da Matéria"
           value={subjectName}
           onChangeText={handleSubjectNameChange}
+        />
+        <Input
+          placeholder="Nota de aprovação"
+          value={subjectPassingGrade}
+          onChangeText={setSubjectPassingGrade}
         />
         <InputSpinner
           max={10}
