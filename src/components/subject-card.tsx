@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { SubjectObjI } from "../interface";
 import { SquareInput } from "../styled-components";
+import {
+  loadGradesFromStorage,
+  saveGradesToStorage,
+} from "../util/async-storage";
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +38,17 @@ export function SubjectCard({
   const [finalGrade, setFinalGrade] = useState("0.00");
 
   useEffect(() => {
-    console.log("subjectObj:", subjectObj);
+    const loadGrades = async () => {
+      const loadedGrades = await loadGradesFromStorage(
+        subjectObj.subjectName.value
+      );
+      setGrades(loadedGrades);
+    };
+
+    loadGrades();
+  }, [subjectObj.subjectName.value]);
+
+  useEffect(() => {
     const sum = grades.reduce((acc, grade, index) => {
       const weight = parseFloat(subjectObj.moduleWeight.value[index]);
       const numericGrade = parseFloat(grade) || 0; // Parse as a number, default to 0
@@ -46,6 +60,8 @@ export function SubjectCard({
     );
     const weightedAverage = totalWeight === 0 ? 0 : sum / totalWeight;
     setFinalGrade(weightedAverage.toFixed(2));
+
+    saveGradesToStorage(subjectObj.subjectName.value, grades); // Save grades to AsyncStorage
   }, [grades, subjectObj.moduleWeight.value]);
 
   function handleGradeChange(index: number, value: string) {
