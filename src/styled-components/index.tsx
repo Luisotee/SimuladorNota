@@ -14,11 +14,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export function SquareInput({ value, onChange }: SquareInputProps) {
+export function SquareInput({
+  value,
+  onChange,
+  placeholder,
+}: SquareInputProps) {
   return (
     <TextInput
       style={styles.inputContainer}
-      placeholder="0.00"
+      placeholder={placeholder || "0.00"}
       keyboardType="numeric"
       maxLength={4}
       value={value}

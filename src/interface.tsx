@@ -14,5 +14,6 @@ export interface SubjectObjI {
 }
 export interface SquareInputProps {
   value: string;
+  placeholder?: string;
   onChange?: (value: string) => void;
 }

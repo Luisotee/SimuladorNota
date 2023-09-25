@@ -37,6 +37,32 @@ export function SubjectCard({
   const [grades, setGrades] = useState<string[]>([]);
   const [finalGrade, setFinalGrade] = useState("0.00");
 
+  const neededGrades = 0;
+
+  function handleGradeChange(index: number, value: string) {
+    // Allow valid decimal numbers or empty string, default to "0.00"
+    if (!isNaN(parseFloat(value)) || value === "") {
+      const updatedGrades = [...grades];
+      updatedGrades[index] = value;
+      setGrades(updatedGrades);
+    }
+  }
+
+  function renderSquareInputs() {
+    const inputs = [];
+    for (let i = 0; i < subjectObj.moduleQuantity.value; i++) {
+      inputs.push(
+        <SquareInput
+          key={i}
+          value={grades[i]?.toString()}
+          placeholder={neededGrades.toFixed(2).toString()}
+          onChange={(value) => handleGradeChange(i, value)}
+        />
+      );
+    }
+    return inputs;
+  }
+
   useEffect(() => {
     const loadGrades = async () => {
       const loadedGrades = await loadGradesFromStorage(
@@ -63,29 +89,6 @@ export function SubjectCard({
 
     saveGradesToStorage(subjectObj.subjectName.value, grades); // Save grades to AsyncStorage
   }, [grades, subjectObj.moduleWeight.value]);
-
-  function handleGradeChange(index: number, value: string) {
-    // Allow valid decimal numbers or empty string, default to "0.00"
-    if (!isNaN(parseFloat(value)) || value === "") {
-      const updatedGrades = [...grades];
-      updatedGrades[index] = value;
-      setGrades(updatedGrades);
-    }
-  }
-
-  function renderSquareInputs() {
-    const inputs = [];
-    for (let i = 0; i < subjectObj.moduleQuantity.value; i++) {
-      inputs.push(
-        <SquareInput
-          key={i}
-          value={grades[i]?.toString()}
-          onChange={(value) => handleGradeChange(i, value)}
-        />
-      );
-    }
-    return inputs;
-  }
 
   return (
     <View style={{ width: "100%" }}>
